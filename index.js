@@ -18,6 +18,11 @@ const requireAuth = (req, res, next) => {
 };
 
 // ----------------temp logging ----------------------------
+app.get('/', (req, res) => {
+  res.send('Backend is running');
+});
+
+
 app.post('/sheets', async (req, res) => {
   try {
     const { action, data } = req.body;
@@ -128,7 +133,8 @@ app.post('/login', (req, res) => {
 });
 
 
-app.listen(4000, () => {
-  console.log('API server running on http://localhost:4000');
+const PORT = process.env.PORT || 4000;
 
+app.listen(PORT, () => {
+  console.log(`API server running on port ${PORT}`);
 });
