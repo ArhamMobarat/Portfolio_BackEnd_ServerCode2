@@ -90,7 +90,11 @@ app.post('/upload-image', async (req, res) => {
     
 
 
-    const { fileName, fileBase64, projectSlug } = req.body;
+    const { fileName, fileBase64, projectId } = req.body;
+
+    if (!projectId) {
+      return res.status(400).json({ error: "Missing projectId" });
+    }
     // dotenv.config();
     const token = process.env.GITHUB_IMAGES_TOKEN;
     const OWNER = 'ArhamMobarat';
@@ -118,7 +122,14 @@ app.post('/upload-image', async (req, res) => {
       }
     );
 
+
     const data = await githubRes.json();
+
+
+    // ----------------------------------------------------------------
+    console.log("GitHub status:", githubRes.status);
+    console.log("GitHub response:", data);
+// --------------------------------------------------------------
 
     if (!githubRes.ok || !data.content) {
       console.error("GitHub upload failed:", data);
