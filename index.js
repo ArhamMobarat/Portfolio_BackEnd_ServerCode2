@@ -113,10 +113,23 @@ app.post('/upload-image', async (req, res) => {
     const data = await githubRes.json();
 
     if (!githubRes.ok) {
-      return res.status(500).json({ error: data.message });
+      console.error("GitHub upload failed:", data);
+      return res.status(500).json({
+        error: data.message || "GitHub upload failed",
+      });
     }
 
-    res.json({ url: data.content.download_url });
+    if (!data.content || !data.content.download_url) {
+      console.error("Invalid GitHub response:", data);
+      return res.status(500).json({
+        error: "GitHub did not return a file URL",
+      });
+    }
+// -------------------------------------
+    const rawUrl = `https://raw.githubusercontent.com/${OWNER}/${REPO}/main/${path}`;
+    res.json({ url: rawUrl });
+// -------------------------------------------
+    // res.json({ url: data.content.download_url });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Upload failed' });
