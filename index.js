@@ -87,25 +87,7 @@ app.post('/sheets', async (req, res) => {
 
 app.post('/upload-image', async (req, res) => {
   try {
-    const githubRes = await fetch(
-      `https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}`,
-      {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: 'application/vnd.github+json',
-        },
-        body: JSON.stringify({
-          message: `Upload ${fileName}`,
-          content: fileBase64,
-          branch: 'main',
-          committer: {
-            name: 'Render Backend',
-            email: 'backend@render.com',
-          },
-        }),
-      }
-    );
+    
 
 
     const { fileName, fileBase64, projectSlug } = req.body;
@@ -122,11 +104,16 @@ app.post('/upload-image', async (req, res) => {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
+          Accept: 'application/vnd.github+json',
         },
         body: JSON.stringify({
           message: `Upload ${fileName}`,
           content: fileBase64,
+          branch: 'main',
+          committer: {
+            name: 'Render Backend',
+            email: 'backend@render.com',
+          },
         }),
       }
     );
