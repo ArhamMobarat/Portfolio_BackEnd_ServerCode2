@@ -100,7 +100,7 @@ app.post('/upload-image', async (req, res) => {
     const OWNER = 'ArhamMobarat';
     const REPO = 'portfolio-images';
 
-    const path = `projects/${projectSlug}/${fileName}`;
+    const path = `projects/${projectId}/${fileName}`;
 
     const githubRes = await fetch(
       `https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}`,
